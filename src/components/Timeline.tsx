@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, useMemo } from 'react';
+import Image from 'next/image';
 import TimelineCard from './TimelineCard';
 import { TimelineEvent } from '../types';
 import { format } from 'date-fns';
@@ -126,10 +127,13 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       {/* Company Logo with CSS classes for consistent styling */}
       <div className="logo-container">
         <div className="logo-box">
-          <img 
+          <Image 
             src="https://ml.globenewswire.com/Resource/Download/7f508b7b-14b0-4ccf-8b3d-d4a54944fbe9" 
             alt="The Metals Company Logo" 
+            width={500}
+            height={200}
             className="logo-image"
+            priority
           />
         </div>
       </div>
