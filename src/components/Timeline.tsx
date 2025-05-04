@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState, useMemo } from 'react';
-import Image from 'next/image';
 import TimelineCard from './TimelineCard';
 import { TimelineEvent } from '../types';
 import { format } from 'date-fns';
@@ -93,51 +92,23 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     }
   }, [pendingEventIndex, sortedEvents, currentDate, currentDatePosition, showDateIndicator]);
   
-  // Scroll to pending event on load - improved centering
+  // Scroll to pending event on load - use a ref to ensure this only runs once
   const hasScrolled = useRef(false);
   useEffect(() => {
     if (timelineRef.current && pendingEventIndex >= 0 && !hasScrolled.current) {
       const pendingEventElement = timelineRef.current.children[pendingEventIndex];
       if (pendingEventElement) {
-        // Delay scrolling to ensure the DOM is fully rendered
+        // Delay scrolling slightly to ensure the DOM is fully rendered
         setTimeout(() => {
-          // Get the element's position and dimensions
-          const rect = pendingEventElement.getBoundingClientRect();
-          const elementTop = rect.top + window.pageYOffset;
-          const elementHeight = rect.height;
-          const windowHeight = window.innerHeight;
-          
-          // Calculate position to center element in viewport
-          const centerPosition = elementTop - (windowHeight / 2) + (elementHeight / 2);
-          
-          // Scroll to calculated position
-          window.scrollTo({
-            top: centerPosition,
-            behavior: 'smooth'
-          });
-          
+          pendingEventElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
           hasScrolled.current = true;
-        }, 800); // Increased delay for better rendering
+        }, 500);
       }
     }
   }, [pendingEventIndex]);
 
   return (
     <div className="container mx-auto px-6 py-8">
-      {/* Company Logo with CSS classes for consistent styling */}
-      <div className="logo-container">
-        <div className="logo-box">
-          <Image 
-            src="https://ml.globenewswire.com/Resource/Download/7f508b7b-14b0-4ccf-8b3d-d4a54944fbe9" 
-            alt="The Metals Company Logo" 
-            width={500}
-            height={200}
-            className="logo-image"
-            priority
-          />
-        </div>
-      </div>
-      
       <div className="text-center mb-12">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
           The Metals Company
@@ -153,34 +124,29 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           {/* Continuous timeline line that spans the entire container */}
           <div className="timeline-line" ref={timelineLineRef}></div>
           
-          {/* Past timeline line segment - improved positioning */}
+          {/* Past timeline line segment */}
           {showDateIndicator && (
             <div 
               className="timeline-line-past"
               style={{ 
                 top: 0,
-                height: `${currentDatePosition}px`,
-                transition: 'height 0.3s ease-out' // Smooth transition for dynamic height changes
+                height: `${currentDatePosition}px` 
               }}
             ></div>
           )}
           
-          {/* Current date indicator with enhanced styling */}
+          {/* Current date indicator with label */}
           {showDateIndicator && (
             <div 
               className="current-date-indicator"
-              style={{ 
-                top: `${currentDatePosition}px`,
-                transition: 'top 0.3s ease-out' // Smooth transition for position changes
-              }}
+              style={{ top: `${currentDatePosition}px` }}
             >
               <span className="current-date-label">
-                Today: {formattedCurrentDate}
+                {formattedCurrentDate}
               </span>
             </div>
           )}
           
-          {/* Timeline events */}
           {sortedEvents.map((event, index) => (
             <div key={event.id} className="relative">
               <TimelineCard 
