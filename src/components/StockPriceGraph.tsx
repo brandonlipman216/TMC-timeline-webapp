@@ -9,15 +9,20 @@ const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function StockPriceGraph({ symbol }: StockPriceGraphProps) {
   const [apiUrl, setApiUrl] = useState<string | null>(null);
-  const _apiKey = 'YOUR_API_KEY'; // Changed from apiKey to _apiKey
+  
+  // Use ESLint disable comment for unused variable
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const apiKey = 'YOUR_API_KEY';
 
   useEffect(() => {
     if (symbol) {
-      setApiUrl(`https://api.example.com/stock/${symbol}?apikey=${_apiKey}`);
+      setApiUrl(`https://api.example.com/stock/${symbol}?apikey=${apiKey}`);
     }
   }, [symbol]);
 
-  const { data, isLoading, _error } = useSWR(apiUrl, fetcher); // Changed from error to _error
+  // Use ESLint disable comment to properly handle the unused error variable
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data, isLoading } = useSWR(apiUrl, fetcher);
 
   if (isLoading) {
     return <div>Loading stock data...</div>;
