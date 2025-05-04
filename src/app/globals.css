@@ -1,26 +1,304 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground-rgb: 13, 35, 64; /* Dark blue text color */
+  --background-rgb: 248, 249, 250;
+  --timeline-line: 229, 231, 235;
+  --accent-color: 1, 138, 239; /* TMC bright blue */
+  --corporate-blue: 13, 35, 64; /* TMC dark blue */
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Timeline dot styles - positioned much closer to cards and centered vertically */
+.timeline-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #e5e7eb; /* Default gray for future events */
+  position: absolute;
+  left: 321px;
+  top: 80%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.timeline-dot.past {
+  background-color: #10B981; /* Green for past events */
+}
+
+.timeline-dot.current {
+  width: 22px;
+  height: 22px;
+  left: 318px;
+  top: 70%;
+  transform: translateY(-50%);
+  background-color: rgb(var(--accent-color)); /* Blue for current event */
+  animation: pulse 2s infinite;
+}
+
+/* Current date indicator - horizontal line crossing the timeline */
+.current-date-indicator {
+  position: absolute;
+  width: 40px;
+  height: 3px;
+  background-color: rgb(var(--accent-color));
+  left: 310px;
+  z-index: 11;
+  transform: translateY(-50%);
+  border-radius: 1.5px;
+  display: flex;
+  align-items: center;
+}
+
+/* Current date label */
+.current-date-label {
+  position: absolute;
+  right: calc(100% + 8px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgb(var(--corporate-blue));
+  background-color: #f0f7ff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Timeline vertical line - continuous line between first and last card */
+.timeline-line {
+  position: absolute;
+  left: 328px;
+  top: 0;
+  bottom: 0; 
+  width: 4px;
+  background-color: #e5e7eb;
+  z-index: 5;
+  height: 100%;
+}
+
+/* Past timeline line - shows completed segment */
+.timeline-line-past {
+  position: absolute;
+  left: 328px;
+  top: 0;
+  width: 4px;
+  background-color: #0D9669; /* Darker green to match the past dots */
+  z-index: 6; /* Slightly higher z-index to appear above the gray line */
+}
+
+/* Compression indicator color styles - keep these */
+.compression-indicator-75 {
+  background-color: #10B981; /* Green for highest compression */
+}
+
+.compression-indicator-50 {
+  background-color: #F59E0B; /* Yellow for medium compression */
+}
+
+.compression-indicator-typical {
+  background-color: #64748b; /* Gray for typical timeline */
+}
+
+/* Stock graph styles */
+.stock-graph-container {
+  position: absolute;
+  right: -320px;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  height: 100%;
+  z-index: 4;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-left: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding-top: 40px;
+}
+
+.stock-graph-header {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: rgb(var(--corporate-blue));
+}
+
+.stock-graph {
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+}
+
+.current-price-indicator {
+  position: absolute;
+  width: 40px;
+  height: 2px;
+  background-color: #0D9669;
+  right: -320px;
+  z-index: 11;
+  transform: translateY(-50%);
+  border-radius: 1.5px;
+  display: flex;
+  align-items: center;
+}
+
+.current-price-label {
+  position: absolute;
+  left: calc(100% + 8px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  background-color: #0D9669;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Card flip styles with improved layout and fixed positioning */
+.flip-card {
+  perspective: 1000px;
+  min-height: 200px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-bottom: 8rem;
+  position: relative;
+}
+
+.flip-card-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  min-height: inherit;
+  left: 0;
+  right: 0;
+}
+
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  min-height: inherit;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  padding: 2.5rem;
+  left: 0;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.flip-card-front {
+  z-index: 1;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Type pill styles with increased padding */
+.type-pill {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  letter-spacing: 0.025em;
+}
+
+.type-pill.company {
+  background-color: #FEF3C7; /* Yellow background */
+  color: #92400E; /* Dark amber text color */
+  border: 1px solid #FBBF24; /* Yellow border */
+}
+
+.type-pill.policy {
+  background-color: #e8eef7;
+  color: rgb(var(--corporate-blue));
+  border: 1px solid rgba(var(--corporate-blue), 0.15);
+}
+
+/* Logo container styles */
+.logo-container {
+  max-width: 500px;
+  margin: 0 auto 2rem auto;
+}
+
+.logo-box {
+  background-color: white;
+  padding: 1.75rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.logo-box:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.logo-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Pulse animation for current timeline dot */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-color), 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--accent-color), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-color), 0);
+  }
+}
+
+/* Match TMC corporate headers */
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: rgb(var(--corporate-blue));
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+/* Styling for interactive elements */
+.text-blue-600 {
+  color: rgb(var(--accent-color)) !important;
 }
