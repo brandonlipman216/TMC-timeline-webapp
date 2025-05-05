@@ -66,7 +66,7 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
       <div className={`timeline-dot ${isPending ? 'current' : isPast ? 'past' : ''}`}></div>
       
       {/* Card container with flip functionality */}
-      <div className="ml-8 md:ml-40 sm:ml-28 relative"> {/* CHANGED: reduced left margin on mobile */}
+      <div className="ml-10 md:ml-48 sm:ml-34 relative"> {/* Increased margins by 20% */}
         <div 
           className="flip-card cursor-pointer"
           onClick={() => setIsFlipped(!isFlipped)}
@@ -93,8 +93,8 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
                 <h3 className="text-base md:text-lg font-semibold text-gray-800 mt-3 md:mt-5 mb-3 md:mb-4">{event.title}</h3>
                 
                 <div className="mt-4 md:mt-8 text-sm font-medium text-blue-600 flex items-center">
-                  <svg className="w-3 h-3 md:w-4 md:h-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                  <svg className="w-3 h-3 md:w-4 md:h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                   Tap to see why it matters
                 </div>
@@ -127,8 +127,8 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
                 </div>
                 
                 <div className="mt-8 text-sm font-medium text-blue-600 flex items-center">
-                  <svg className="w-4 h-4 mr-1" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
-                    <path d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" />
+                  <svg className="w-3 h-3 md:w-4 md:h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                   </svg>
                   Tap to go back
                 </div>

@@ -245,20 +245,20 @@ h2 {
 
 /* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
-  /* Adjust timeline dots for mobile - move further left */
+  /* Adjust timeline dots for mobile - move to be vertically centered */
   .timeline-dot {
     left: 12px;
     width: 14px;
     height: 14px;
-    top: 24px; /* Position at top of card instead of center */
-    transform: none;
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Re-enable transform for vertical centering */
   }
   
   .timeline-dot.current {
     left: 10px;
     width: 18px;
     height: 18px;
-    top: 22px;
+    top: 50%;
   }
   
   /* Move timeline lines to far left */
@@ -271,6 +271,7 @@ h2 {
   .current-date-indicator {
     left: 0;
     width: 38px;
+    z-index: 9; /* Lower z-index to ensure it doesn't overlap cards */
   }
   
   .current-date-label {
@@ -278,8 +279,10 @@ h2 {
     padding: 4px 8px;
     right: auto;
     left: 42px;
-    max-width: 120px;
-    white-space: normal;
+    max-width: none; /* Remove max-width to prevent wrapping */
+    white-space: nowrap; /* Ensure text stays on one line */
+    background-color: rgba(240, 247, 255, 0.85); /* Semi-transparent background */
+    z-index: 8; /* Lower z-index */
   }
   
   /* Completely rework card layout for mobile */
