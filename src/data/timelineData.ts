@@ -73,7 +73,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Executive Order 2025-04-15, "Ensuring National Security and Economic Resilience Through Section 232 Actions on Processed Critical Minerals and Derivative Products" signed',
     description: 'Launches a Section 232 investigation into imports of processed critical minerals (nickel sulfate, cobalt, copper derivatives) to assess supply-chain vulnerabilities and national-security risks. Its scope (Sec 3) dictates whether tariffs, quotas, or incentives are imposed—directly shaping the economics of TMC\'s downstream nodule-refining and offtake agreements. Orders Commerce to complete a preliminary determination of strategic mineral supply chain risks within 90 days, with a focus on battery metals that polymetallic nodules contain in abundance. Creates a formal interagency review process to evaluate defense requirements for critical minerals and potential for domestic processing capacity expansion.',
-    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/ensuring-national-security-through-section-232-actions-critical-minerals/'
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/ensuring-national-security-and-economic-resilience-through-section-232-actions-on-processed-critical-minerals-and-derivative-products/'
   },
   {
     id: '8',
@@ -113,7 +113,6 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Company',
     title: 'TMC Q1 2025 Earnings Release & Call',
     description: 'Provides management\'s update on PFS timing, NOAA-filing progress, and early environmental/regulatory insights. Q1 results take ~6 weeks post-quarter to audit, prepare slides, and host analysts—making this a key near-term investor catalyst. Expected to include preliminary CapEx estimates for the offshore collection system and updates on discussions with potential offtake partners. Will address analyst questions about the dual-track permitting approach (U.S. DSHMRA and ISA) and the implications for project financing.',
-    sourceUrl: 'https://investors.metals.co/news-releases/news-release-details/metals-company-reports-first-quarter-2025-results'
   },
   {
     id: '13',
@@ -145,7 +144,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Executive Order 2025-04-24 Sec 3 (60 days): "Unleashing America\'s Offshore Critical Minerals & Resources" deliverables due (due Jun 23, 2025)',
     description: 'Agencies must (i) expedite DSHMRA permits, (ii) report on exploration & processing opportunities, (iii) finalize seabed-mapping plans, (iv) align allied-engagement strategies, and (v) deliver Defense Stockpile feasibility—all prerequisites for TMC\'s permit approvals and technical planning. The seabed mapping report will identify priority areas within TMC\'s CCZ contract areas that Navy and NOAA vessels will survey to support environmental baseline work. The processing opportunities report will identify domestic metallurgical facilities that could be retrofitted to handle polymetallic nodules under DPA Title III funding.',
-    sourceUrl: 'https://www.commerce.gov/reports/2025/06/critical-minerals-offshore-resources-assessment'
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/unleashing-americas-offshore-critical-minerals-and-resources/'
   },
   {
     id: '17',
@@ -169,7 +168,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Company',
     title: 'Pre-Feasibility Study (PFS) Release (Q2 2025)',
     description: 'Completes site-characterization, metallurgical testing, economic modelling, and expert reviews—typically a multi-month process involving lab pilots, expert validation, and capital-cost estimates. The PFS underpins both U.S. and ISA permit filings and serves as a key technical catalyst. Contains detailed net present value calculations under various metal price scenarios, CAPEX requirements for offshore collection systems and onshore processing, and schedules for construction and commissioning. Demonstrates technical and economic viability of TMC\'s deep-sea nodule collection system at commercial scale based on successful pilot trials.',
-    sourceUrl: 'https://investors.metals.co/news-releases/news-release-details/metals-company-announces-completion-pre-feasibility-study'
+    sourceUrl: 'https://investors.metals.co/news-releases/news-release-details/tmc-and-pamco-sign-binding-mou-complete-feasibility-study'
   },
   {
     id: '20',
@@ -185,7 +184,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Executive Order 2025-04-09 Sec 7/8/11/12/13/15 (90 days): "Restoring America\'s Maritime Dominance" interagency deliverables due (due Jul 8, 2025)',
     description: 'Requires USTR/Commerce ally-engagement & incentive plans (Secs 7/8); designation of Maritime Prosperity Zones (Sec 11); federal maritime-program inventory (Sec 12); workforce-pipeline recommendations (Sec 13); procurement-efficiency proposals (Sec 15)—defining grants, port-upgrade funding, and training pipelines that TMC will leverage for its deep-sea fleet. The Maritime Prosperity Zones will identify specific ports for preferential funding and regulatory treatment, potentially providing TMC with advantageous operating bases. The workforce recommendations will include specialized training programs for deep-sea mining vessel operators and technicians funded through federal grants.',
-    sourceUrl: 'https://www.transportation.gov/maritime/reports/2025/maritime-dominance-deliverables'
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/restoring-americas-maritime-dominance/'
   },
   {
     id: '22',
@@ -193,7 +192,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Executive Order 2025-04-15 Sec 3(c)(i) (90 days): Draft interim Section 232 report due (due Jul 14, 2025)',
     description: 'Commerce must analyze import volumes, geopolitical risks, processing-capacity gaps, and supply-chain vulnerabilities. These findings feed directly into TMC\'s PFS assumptions, tariff-incentive modelling, and domestic-processing strategy.',
-    sourceUrl: 'https://www.commerce.gov/reports/2025/section-232-critical-minerals-interim-report'
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/ensuring-national-security-and-economic-resilience-through-section-232-actions-on-processed-critical-minerals-and-derivative-products/'
   },
   {
     id: '23',
@@ -201,7 +200,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Federal Register Notice of Intent (NOI) Published (Q3 2025)',
     description: 'Publication of the NOI in the Federal Register (40 C.F.R. §1501.7) triggers a 30–60 day public scoping period under NEPA. NOAA gathers stakeholder input (fisheries, tribes, conservation groups) to define the range of alternatives and data needs that TMC\'s Draft EIS must address. This scoping process is required under DSHMRA §1419, which mandates NEPA compliance for all commercial recovery permits, ensuring that environmental concerns are thoroughly evaluated before any permit issuance.',
-    sourceUrl: 'https://www.federalregister.gov/documents/2025/07/15/tmc-deep-seabed-mining-notice-of-intent'
+    sourceUrl: 'https://uscode.house.gov/view.xhtml?path=/prelim@title30/chapter26&edition=prelim'
   },
   {
     id: '24',
@@ -209,7 +208,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Executive Order 2025-04-15 Sec 3(c)(ii) (15 days): Comments on draft interim Section 232 report due (due Jul 29, 2025)',
     description: 'Interagency stakeholders (Treasury, DoD, USTR, etc.) refine and finalize policy recommendations on tariffs, quotas, and incentives—ensuring balanced defense, economic, and trade considerations that TMC must incorporate into its offtake and financing models.',
-    sourceUrl: 'https://www.commerce.gov/reports/2025/section-232-critical-minerals-comments'
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/ensuring-national-security-and-economic-resilience-through-section-232-actions-on-processed-critical-minerals-and-derivative-products/'
   },
   {
     id: '25',
@@ -217,7 +216,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Executive Order 2025-04-09 Sec 4 (180 days): Defense-Industrial-Base Assessment due (due Oct 6, 2025)',
     description: 'Directs DoD, Commerce, DOT & DHS to evaluate DPA Title III authorities and private-sector financing options for U.S. shipbuilding capacity, component supply chains, and port infrastructure. This 180-day study underpins loan and grant programs that TMC will leverage to retrofit existing vessels or commission new deep-sea collection ships.',
-    sourceUrl: 'https://www.defense.gov/reports/2025/defense-industrial-base-maritime-assessment'
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/restoring-americas-maritime-dominance/'
   },
   {
     id: '26',
@@ -225,7 +224,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Executive Order 2025-04-15 Sec 3(c)(iii) (180 days): Final Section 232 report & recommendations due (due Oct 12, 2025)',
     description: 'Commerce must deliver a final Section 232 report with policy options—tariffs, quotas, incentives, or safeguards—to mitigate national-security risks from imported processed minerals. These decisions will directly shape TMC\'s refining economics and offtake negotiations.',
-    sourceUrl: 'https://www.commerce.gov/reports/2025/section-232-critical-minerals-final-report'
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/ensuring-national-security-and-economic-resilience-through-section-232-actions-on-processed-critical-minerals-and-derivative-products/'
   },
   {
     id: '27',
@@ -233,15 +232,15 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Executive Order 2025-04-09 Sec 3(a) (210 days): Maritime Action Plan (MAP) submission due (due Nov 5, 2025)',
     description: 'Consolidates all directives from "Restoring America\'s Maritime Dominance" into a unified roadmap—covering Buy-American rules, funding priorities, regulatory reforms, and global trade alignment. The MAP specifies when and how federal support flows to shipyards, ports, and workforce programs critical to TMC\'s operations.',
-    sourceUrl: 'https://www.transportation.gov/maritime/reports/2025/maritime-action-plan'
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/restoring-americas-maritime-dominance/'
   },
   {
     id: '28',
     date: parseISO('2025-12-31'),
     type: 'Policy',
-    title: 'Defense Department Feasibility Study on Domestic PMN Refining due',
+    title: 'Defense Department Feasibility Study on Domestic Polymetallic Nodule Refining due',
     description: 'Mandated by FY 2025 NDAA (P.L. 118-159), the Secretary of Defense must report to the Armed Services Committees by Dec 31, 2025 on the feasibility of refining polymetallic nodule intermediates into high-purity nickel, cobalt sulfate, and copper for defense applications—specifically regarding domestic nodule refining.',
-    sourceUrl: 'https://www.defense.gov/reports/2025/polymetallic-nodule-refining-feasibility'
+    sourceUrl: 'https://investors.metals.co/news-releases/news-release-details/tmc-applauds-us-congressional-mandate-2025-defense-department/'
   },
   {
     id: '29',
