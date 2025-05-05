@@ -279,15 +279,18 @@ h2 {
     white-space: normal;
   }
   
-  /* Make cards more compact on mobile */
+  /* Make cards more compact on mobile with INCREASED margins */
   .flip-card {
     margin-bottom: 4rem;
-    margin-left: 24px; /* Add margin from timeline */
+    margin-left: 0; /* Remove this, we'll handle in container */
+    width: 100%; /* Ensure it takes full width of container */
+    max-width: 100%; /* Override the 500px max-width for mobile */
   }
   
   .flip-card-front, 
   .flip-card-back {
-    padding: 1.25rem;
+    padding: 1rem; /* Reduce padding further */
+    width: 100%;
   }
   
   /* Adjust card title sizes */
