@@ -61,12 +61,12 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
 
   return (
     <div className={`relative ${getMarginClass()}`}>
-      {/* Timeline visual elements */}
+      {/* Timeline visual elements - don't change positions */}
       <div className="timeline-line"></div>
       <div className={`timeline-dot ${isPending ? 'current' : isPast ? 'past' : ''}`}></div>
       
       {/* Card container with flip functionality */}
-      <div className="ml-12 md:ml-12 sm:ml-10"> {/* Responsive margins */}
+      <div className="ml-12"> {/* Keep original margin */}
         <div 
           className="flip-card cursor-pointer"
           onClick={() => setIsFlipped(!isFlipped)}
