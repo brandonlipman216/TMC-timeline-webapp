@@ -148,7 +148,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           )}
           
           {sortedEvents.map((event, index) => (
-            <div key={event.id} className="relative">
+            <div key={event.id} className="relative timeline-event-card">
               <TimelineCard 
                 event={event}
                 isPending={index === pendingEventIndex}

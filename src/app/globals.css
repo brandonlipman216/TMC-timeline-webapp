@@ -242,3 +242,58 @@ h2 {
 .text-blue-600 {
   color: rgb(var(--accent-color)) !important;
 }
+
+/* Media queries for mobile responsiveness */
+@media (max-width: 768px) {
+  /* Adjust timeline dots for mobile */
+  .timeline-dot {
+    left: 20px;
+    width: 14px;
+    height: 14px;
+  }
+  
+  .timeline-dot.current {
+    left: 18px;
+    width: 18px;
+    height: 18px;
+  }
+  
+  /* Adjust timeline lines for mobile */
+  .timeline-line,
+  .timeline-line-past {
+    left: 27px;
+  }
+  
+  /* Adjust current date indicator for mobile */
+  .current-date-indicator {
+    left: 10px;
+    width: 35px;
+  }
+  
+  .current-date-label {
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    right: auto;
+    left: 50px;
+    max-width: 120px;
+  }
+  
+  /* Make cards more compact on mobile */
+  .flip-card {
+    margin-bottom: 4rem;
+  }
+  
+  .flip-card-front, 
+  .flip-card-back {
+    padding: 1.25rem;
+  }
+  
+  /* Adjust card title sizes */
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+  }
+}
