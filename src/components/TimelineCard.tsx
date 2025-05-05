@@ -59,7 +59,7 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
     // Pre-process: Replace common abbreviations temporarily to prevent incorrect splits
     processedText = processedText
       .replace(/U\.S\./g, "US_PLACEHOLDER")
-      .replace(/C\.F\.R\.\s+§\d+\.\d+/g, (match) => `CFR_SECTION_PLACEHOLDER_${placeholderCount++}`) // Handle C.F.R. §NN.NN pattern
+      .replace(/C\.F\.R\.\s+§\d+\.\d+/g, (matchText) => `CFR_SECTION_PLACEHOLDER_${placeholderCount++}`) // Handle C.F.R. §NN.NN pattern
       .replace(/C\.F\.R\./g, "CFR_PLACEHOLDER")
       .replace(/e\.g\./g, "EG_PLACEHOLDER")
       .replace(/i\.e\./g, "IE_PLACEHOLDER")
@@ -70,19 +70,18 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
     
     // Store CFR section references for restoration
     const cfrSections: {[key: string]: string} = {};
-    processedText.replace(/CFR_SECTION_PLACEHOLDER_(\d+)/g, (matchStr, index) => {
-      cfrSections[matchStr] = dollarPlaceholders[`DOLLAR_PLACEHOLDER_${index}`] || matchStr;
-      return matchStr;
+    processedText.replace(/CFR_SECTION_PLACEHOLDER_(\d+)/g, (matchText, index) => {
+      cfrSections[matchText] = dollarPlaceholders[`DOLLAR_PLACEHOLDER_${index}`] || matchText;
+      return matchText;
     });
     
     // Better sentence detection - look for periods followed by space and capital letter or quotation
-    const sentences = [];
+    const sentences: string[] = [];
     const sentenceRegex = /[^.!?]+[.!?]+(?=\s+[A-Z0-9"]|$)/g;
+    let sentenceMatch: RegExpExecArray | null;
     
-    // Rewrite to avoid using the 'match' variable completely
-    let matchArray;
-    while ((matchArray = sentenceRegex.exec(processedText)) !== null) {
-      const sentence = matchArray[0].trim();
+    while ((sentenceMatch = sentenceRegex.exec(processedText)) !== null) {
+      const sentence = sentenceMatch[0].trim();
       if (sentence) {
         sentences.push(sentence);
       }
@@ -120,9 +119,9 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
       // Handle remaining whole numbers like "2 billion" that didn't have decimals
       // And make sure we don't mess with text that already has a dollar sign before or after a decimal
       formattedSentence = formattedSentence.replace(/(?<!\$[\d.]*)\b(\d+)\s+(billion|million|trillion|thousand)/gi, 
-        (match, number, unit) => {
+        (matchText, number, unit) => {
           // Improved check to avoid adding dollar signs to numbers that already have them in context
-          if (match.includes('$') || formattedSentence.includes(`$${number}.`)) return match;
+          if (matchText.includes('$') || formattedSentence.includes(`$${number}.`)) return matchText;
           return `$${number} ${unit}`;
         });
       
@@ -144,8 +143,8 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
         .replace(/ETSEQ_PLACEHOLDER/g, "et seq.")
         .replace(/SECTIONS_PLACEHOLDER/g, "§§")
         .replace(/SECTION_PLACEHOLDER/g, "§")
-        .replace(/CFR_SECTION_PLACEHOLDER_\d+/g, (match) => {
-          return cfrSections[match] || "C.F.R. §"; // Fallback
+        .replace(/CFR_SECTION_PLACEHOLDER_\d+/g, (matchText) => {
+          return cfrSections[matchText] || "C.F.R. §"; // Fallback
         });
       
       if (paragraph.trim()) {
