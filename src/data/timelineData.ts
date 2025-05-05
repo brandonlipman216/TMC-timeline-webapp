@@ -133,7 +133,7 @@ const unsortedEvents: TimelineEvent[] = [
   },
   {
     id: '15',
-    date: parseISO('2025-05-30'),
+    date: parseISO('2025-05-15'),
     type: 'Policy',
     title: 'Permitting Technology Action Plan due (due May 15, 2025)',
     description: 'CEQ must publish the PTAP by May 15, 2025, detailing NEPA data-exchange standards, software interoperability guidelines, and prototype automation requirements to slash iterative review cycles and accelerate Draft and Final EIS phases. The plan establishes API standards for environment-data submission that will allow TMC\'s vast CCZ ecosystem dataset to be efficiently ingested into NEPA tools. Introduces machine-learning tools that can compare TMC\'s deep-sea mining impacts against benchmarks from similar seabed activities to automate portions of the analysis process.',
