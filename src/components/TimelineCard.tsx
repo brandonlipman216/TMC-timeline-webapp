@@ -65,10 +65,10 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
       <div className="timeline-line"></div>
       <div className={`timeline-dot ${isPending ? 'current' : isPast ? 'past' : ''}`}></div>
       
-      {/* mobile ml-0, desktop md:ml-12 */}
-      <div className="ml-0 md:ml-12">
+      {/* Card container with flip functionality */}
+      <div className="ml-12 md:ml-40 sm:ml-20"> {/* Increased margins for better mobile spacing */}
         <div 
-          className="flip-card cursor-pointer max-w-full sm:max-w-md lg:max-w-lg"
+          className="flip-card cursor-pointer"
           onClick={() => setIsFlipped(!isFlipped)}
           style={containerHeight ? { minHeight: `${containerHeight}px` } : {}}
         >
