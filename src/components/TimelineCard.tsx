@@ -70,9 +70,9 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
     
     // Store CFR section references for restoration
     const cfrSections: {[key: string]: string} = {};
-    processedText.replace(/CFR_SECTION_PLACEHOLDER_(\d+)/g, (match, index) => {
-      cfrSections[match] = dollarPlaceholders[`DOLLAR_PLACEHOLDER_${index}`] || match;
-      return match;
+    processedText.replace(/CFR_SECTION_PLACEHOLDER_(\d+)/g, (matchStr, index) => {
+      cfrSections[matchStr] = dollarPlaceholders[`DOLLAR_PLACEHOLDER_${index}`] || matchStr;
+      return matchStr;
     });
     
     // Better sentence detection - look for periods followed by space and capital letter or quotation
