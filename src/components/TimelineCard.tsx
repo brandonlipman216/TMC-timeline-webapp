@@ -78,10 +78,11 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
     // Better sentence detection - look for periods followed by space and capital letter or quotation
     const sentences = [];
     const sentenceRegex = /[^.!?]+[.!?]+(?=\s+[A-Z0-9"]|$)/g;
-    let _match; // Renamed with underscore to indicate intentional non-usage
     
-    while ((_match = sentenceRegex.exec(processedText)) !== null) {
-      const sentence = _match[0].trim();
+    // Rewrite to avoid using the 'match' variable completely
+    let matchArray;
+    while ((matchArray = sentenceRegex.exec(processedText)) !== null) {
+      const sentence = matchArray[0].trim();
       if (sentence) {
         sentences.push(sentence);
       }
