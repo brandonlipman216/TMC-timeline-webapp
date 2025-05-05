@@ -13,9 +13,27 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
   const timelineLineRef = useRef<HTMLDivElement>(null);
   const [currentDatePosition, setCurrentDatePosition] = useState(0);
   const [showDateIndicator, setShowDateIndicator] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
+  const [showJumpButton, setShowJumpButton] = useState(false);
   
   // Format the current date for display
   const formattedCurrentDate = format(currentDate, 'MMM d, yyyy');
+  
+  // Detect mobile view
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobileView(window.innerWidth <= 768);
+    };
+    
+    // Check on initial render
+    checkMobile();
+    
+    // Add listener for window resize
+    window.addEventListener('resize', checkMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   // Memoize sorted events to prevent unnecessary re-renders
   const sortedEvents = useMemo(() => {
@@ -107,6 +125,49 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     }
   }, [pendingEventIndex]);
 
+  // Check scroll position to show/hide jump button
+  useEffect(() => {
+    if (!timelineRef.current || pendingEventIndex < 0) return;
+    
+    const handleScroll = () => {
+      const eventElements = Array.from(timelineRef.current!.children).filter(
+        child => child.className.includes('timeline-event-card')
+      );
+      
+      if (eventElements.length > pendingEventIndex) {
+        const pendingElement = eventElements[pendingEventIndex] as HTMLElement;
+        const rect = pendingElement.getBoundingClientRect();
+        
+        // Show button when pending event is not visible in viewport
+        const isOutOfView = rect.top < 0 || rect.bottom > window.innerHeight;
+        setShowJumpButton(isOutOfView);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    // Check initial scroll position
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [pendingEventIndex]);
+  
+  // Function to jump to current pending event
+  const jumpToCurrent = () => {
+    if (timelineRef.current && pendingEventIndex >= 0) {
+      const eventElements = Array.from(timelineRef.current.children).filter(
+        child => child.className.includes('timeline-event-card')
+      );
+      
+      if (eventElements.length > pendingEventIndex) {
+        eventElements[pendingEventIndex].scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }
+    }
+  };
+
   return (
     <div className="container mx-auto px-1 md:px-6 py-4 md:py-8"> {/* Reduced padding even more */}
       <div className="text-center mb-6 md:mb-12">
@@ -134,15 +195,17 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
             ></div>
           )}
           
-          {/* Current date indicator with label */}
+          {/* Current date indicator with label - only show label on desktop */}
           {showDateIndicator && (
             <div 
               className="current-date-indicator"
               style={{ top: `${currentDatePosition}px` }}
             >
-              <span className="current-date-label">
-                {formattedCurrentDate}
-              </span>
+              {!isMobileView && (
+                <span className="current-date-label">
+                  {formattedCurrentDate}
+                </span>
+              )}
             </div>
           )}
           
@@ -157,6 +220,17 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           ))}
         </div>
       </div>
+      
+      {/* Floating "Jump to Current" button */}
+      {showJumpButton && (
+        <button 
+          onClick={jumpToCurrent}
+          className="jump-to-current-button"
+          aria-label="Jump to current event"
+        >
+          Jump to current
+        </button>
+      )}
     </div>
   );
 }
