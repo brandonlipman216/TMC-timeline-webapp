@@ -245,60 +245,83 @@ h2 {
 
 /* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
-  /* Adjust timeline dots for mobile */
+  /* Adjust timeline dots for mobile - move further left */
   .timeline-dot {
-    left: 20px;
+    left: 12px;
     width: 14px;
     height: 14px;
+    top: 24px; /* Position at top of card instead of center */
+    transform: none;
   }
   
   .timeline-dot.current {
-    left: 18px;
+    left: 10px;
     width: 18px;
     height: 18px;
+    top: 22px;
   }
   
-  /* Adjust timeline lines for mobile */
+  /* Move timeline lines to far left */
   .timeline-line,
   .timeline-line-past {
-    left: 27px;
+    left: 19px;
   }
   
   /* Adjust current date indicator for mobile */
   .current-date-indicator {
-    left: 10px;
-    width: 35px;
+    left: 0;
+    width: 38px;
   }
   
   .current-date-label {
     font-size: 0.65rem;
     padding: 4px 8px;
     right: auto;
-    left: 50px;
+    left: 42px;
     max-width: 120px;
     white-space: normal;
   }
   
-  /* Make cards more compact on mobile with INCREASED margins */
+  /* Completely rework card layout for mobile */
   .flip-card {
-    margin-bottom: 4rem;
-    margin-left: 0; /* Remove this, we'll handle in container */
-    width: 100%; /* Ensure it takes full width of container */
-    max-width: 100%; /* Override the 500px max-width for mobile */
+    margin-bottom: 2.5rem;
+    width: calc(100% - 40px); /* Leave space for timeline */
+    max-width: none;
+    margin-left: auto;
+    margin-right: 10px;
   }
   
+  /* Reduce card padding to fit more content */
   .flip-card-front, 
   .flip-card-back {
-    padding: 1rem; /* Reduce padding further */
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Force cards to be properly sized */
+  .flip-card-inner, 
+  .flip-card-front, 
+  .flip-card-back {
     width: 100%;
+    min-height: auto;
   }
   
   /* Adjust card title sizes */
   h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
   
   h2 {
     font-size: 1.25rem;
+  }
+  
+  h3 {
+    font-size: 1rem;
+  }
+  
+  /* Make type pills smaller */
+  .type-pill {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.7rem;
   }
 }

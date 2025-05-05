@@ -108,18 +108,18 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
   }, [pendingEventIndex]);
 
   return (
-    <div className="container mx-auto px-2 md:px-6 py-8"> {/* Reduced padding on mobile */}
-      <div className="text-center mb-8 md:mb-12">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+    <div className="container mx-auto px-1 md:px-6 py-4 md:py-8"> {/* Reduced padding even more */}
+      <div className="text-center mb-6 md:mb-12">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">
           The Metals Company
         </h1>
-        <h2 className="text-xl text-gray-600">
+        <h2 className="text-base md:text-xl text-gray-600">
           2025 Key Company and Policy Events
         </h2>
       </div>
       
-      <div className="max-w-full md:max-w-2xl mx-auto"> {/* Allow full width on mobile */}
-        <div ref={timelineRef} className="relative py-8 overflow-visible px-2 md:px-0">
+      <div className="max-w-full md:max-w-2xl mx-auto">
+        <div ref={timelineRef} className="relative py-6 md:py-8 overflow-visible px-0 md:px-0">
           {/* Continuous timeline line that spans the entire container */}
           <div className="timeline-line" ref={timelineLineRef}></div>
           
