@@ -282,13 +282,6 @@ h2 {
   /* Make cards more compact on mobile */
   .flip-card {
     margin-bottom: 4rem;
-    max-width: calc(100% - 10px);
-    margin-left: 0;
-  }
-  
-  /* Fix padding for card front on mobile */
-  .flip-card-front > div {
-    padding: 1rem !important;
   }
   
   .flip-card-front, 
