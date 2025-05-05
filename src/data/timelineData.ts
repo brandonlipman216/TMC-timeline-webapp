@@ -121,7 +121,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Company',
     title: '2025 Annual Meeting of Shareholders at 10:00 AM EDT',
     description: 'Formal governance vote and live Q&A, typically accompanied by strategic updates on permitting, financing, PFS status, and regulatory milestones. Must occur within ~6 months of fiscal year-end under corporate bylaws. Board will seek shareholder approval for expanded financing authorities to support vessel conversion and collection system fabrication. Management expected to present detailed timeline for regulatory milestones and answer questions about the U.S. policy environment for deep-sea mining.',
-    sourceUrl: 'https://investors.metals.co/annual-meeting/2025-proxy-materials'
+    sourceUrl: 'https://www.cstproxy.com/metals/2025/'
   },
   {
     id: '14',
@@ -137,7 +137,7 @@ const unsortedEvents: TimelineEvent[] = [
     type: 'Policy',
     title: 'Permitting Technology Action Plan due (due May 15, 2025)',
     description: 'CEQ must publish the PTAP by May 15, 2025, detailing NEPA data-exchange standards, software interoperability guidelines, and prototype automation requirements to slash iterative review cycles and accelerate Draft and Final EIS phases. The plan establishes API standards for environment-data submission that will allow TMC\'s vast CCZ ecosystem dataset to be efficiently ingested into NEPA tools. Introduces machine-learning tools that can compare TMC\'s deep-sea mining impacts against benchmarks from similar seabed activities to automate portions of the analysis process.',
-    sourceUrl: 'https://www.whitehouse.gov/ceq/briefing-room/2025/05/30/permitting-technology-action-plan'
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/updating-permitting-technology-for-the-21st-century/'
   },
   {
     id: '16',
