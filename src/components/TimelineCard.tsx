@@ -49,8 +49,8 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
     const dollarPlaceholders: {[key: string]: string} = {};
     let placeholderCount = 0;
     
-    // Improved regex to better capture dollar amounts with decimals
-    let processedText = description.replace(/(\$\d+\.\d+|\d+\.\d+)\s+(billion|million|trillion|thousand)/gi, () => {
+    // Improved regex to better capture dollar amounts with decimals - FIXING MATCH VARIABLE HERE
+    let processedText = description.replace(/(\$\d+\.\d+|\d+\.\d+)\s+(billion|million|trillion|thousand)/gi, (match) => {
       const placeholder = `DOLLAR_PLACEHOLDER_${placeholderCount++}`;
       dollarPlaceholders[placeholder] = match.startsWith('$') ? match : `$${match}`;
       return placeholder;
