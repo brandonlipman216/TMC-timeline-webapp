@@ -245,9 +245,9 @@ h2 {
 
 /* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
-  /* Adjust timeline dots for mobile - ensure center alignment */
+  /* Adjust timeline dots for mobile - perfect center alignment */
   .timeline-dot {
-    left: 17px; /* Center with the timeline line */
+    left: 14px; /* Perfectly center with the timeline line */
     width: 14px;
     height: 14px;
     top: 50%;
@@ -255,13 +255,13 @@ h2 {
   }
   
   .timeline-dot.current {
-    left: 15px; /* Center with the timeline line accounting for larger size */
+    left: 12px; /* Perfectly center with the timeline line for larger dot */
     width: 18px;
     height: 18px;
     top: 50%;
   }
   
-  /* Ensure timeline lines are centered with dots */
+  /* Ensure timeline lines are centered */
   .timeline-line,
   .timeline-line-past {
     left: 19px;
@@ -274,21 +274,21 @@ h2 {
     z-index: 9;
   }
   
-  /* Reposition the date label over the timeline */
+  /* Reposition the date label ABOVE the timeline */
   .current-date-label {
     position: absolute;
     font-size: 0.65rem;
     padding: 4px 6px;
     right: auto;
     left: 10px; /* Position directly over timeline */
-    top: 25px; /* Position below the horizontal line */
-    transform: none; /* Remove vertical centering */
-    max-width: 60px; /* Limit width to force wrapping */
-    white-space: normal; /* Allow wrapping */
-    text-align: center;
+    top: -30px; /* Position ABOVE the horizontal line */
+    transform: none; 
+    max-width: none; /* Allow natural width */
+    white-space: nowrap; /* Keep on one line */
+    text-align: left;
     line-height: 1.2;
-    background-color: rgba(240, 247, 255, 0.95);
-    z-index: 20; /* Higher z-index */
+    background-color: rgba(240, 247, 255, 0.85); /* Semi-transparent */
+    z-index: 20;
     border: 1px solid rgba(0, 0, 0, 0.08);
   }
   

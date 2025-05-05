@@ -93,7 +93,13 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
                 <h3 className="text-base md:text-lg font-semibold text-gray-800 mt-3 md:mt-5 mb-3 md:mb-4">{event.title}</h3>
                 
                 <div className="text-sm font-medium text-blue-600 flex items-center">
-                  <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg 
+                    className="w-3 h-3 mr-1" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                    style={{ minWidth: '12px', maxWidth: '12px', minHeight: '12px', maxHeight: '12px' }}
+                  >
                     {isFlipped ? (
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                     ) : (
@@ -131,7 +137,13 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
                 </div>
                 
                 <div className="text-sm font-medium text-blue-600 flex items-center">
-                  <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg 
+                    className="w-3 h-3 mr-1" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                    style={{ minWidth: '12px', maxWidth: '12px', minHeight: '12px', maxHeight: '12px' }}
+                  >
                     {isFlipped ? (
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                     ) : (
