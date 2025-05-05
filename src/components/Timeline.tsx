@@ -120,7 +120,10 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       
       <div className="max-w-2xl mx-auto">
         {/* The timeline line is now positioned relative to this container */}
-        <div ref={timelineRef} className="relative py-8 overflow-visible">
+        <div 
+          ref={timelineRef} 
+          className="relative py-8 overflow-visible pl-8 sm:pl-10 md:pl-12 lg:pl-14"
+        >
           {/* Continuous timeline line that spans the entire container */}
           <div className="timeline-line" ref={timelineLineRef}></div>
           
