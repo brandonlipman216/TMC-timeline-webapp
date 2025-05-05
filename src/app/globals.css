@@ -243,31 +243,58 @@ h2 {
   color: rgb(var(--accent-color)) !important;
 }
 
-/* Media queries for mobile responsiveness - only adjust card positioning */
+/* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
-  /* Remove all position changes and instead scale down the entire timeline */
-  body {
-    zoom: 0.6; /* Scale everything down - fallback */
-    transform: scale(0.6);
-    transform-origin: left top;
+  /* Adjust timeline dots for mobile */
+  .timeline-dot {
+    left: 20px;
+    width: 14px;
+    height: 14px;
   }
   
-  /* Keep the same layout but adjust padding and margins only */
+  .timeline-dot.current {
+    left: 18px;
+    width: 18px;
+    height: 18px;
+  }
+  
+/* Adjust timeline lines for mobile */
+  /* Adjust timeline lines for mobile */
+  .timeline-line,
+  .timeline-line-past {
+    left: 27px;
+  }
+  
+  /* Adjust current date indicator for mobile */
+  .current-date-indicator {
+    le10pxt: 10px;
+    widt5: 35px;
+  }
+  
+  .current-date-label {
+    font-size: 0.65rem;
+    padding: 8px 8px;
+    right: auto;
+    le50: 50px;
+    max-widt2: 120px;
+  }
+  
+  /* Make cards more compact on mobile */
   .flip-card {
-    margin-bottom: 6rem; /* Slightly reduced from desktop */
-    max-width: 400px; /* Slightly smaller than desktop */
+    margin-bottom: 4rem;
   }
   
-  .flip-card-front > div {
-    padding: 1.5rem !important; /* Slightly reduced padding */
+  .flip-card-front, 
+  .flip-card-back {
+    padding: 1.25rem;
   }
   
-  /* Adjust font sizes proportionally */
+  /* Adjust card title sizes */
   h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
   
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 }
