@@ -245,44 +245,51 @@ h2 {
 
 /* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
-  /* Adjust timeline dots for mobile - move to be vertically centered */
+  /* Adjust timeline dots for mobile - ensure center alignment */
   .timeline-dot {
-    left: 12px;
+    left: 17px; /* Center with the timeline line */
     width: 14px;
     height: 14px;
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Re-enable transform for vertical centering */
+    top: 50%;
+    transform: translateY(-50%);
   }
   
   .timeline-dot.current {
-    left: 10px;
+    left: 15px; /* Center with the timeline line accounting for larger size */
     width: 18px;
     height: 18px;
     top: 50%;
   }
   
-  /* Move timeline lines to far left */
+  /* Ensure timeline lines are centered with dots */
   .timeline-line,
   .timeline-line-past {
     left: 19px;
   }
   
-  /* Adjust current date indicator for mobile */
+  /* Position current date indicator over the timeline */
   .current-date-indicator {
     left: 0;
     width: 38px;
-    z-index: 9; /* Lower z-index to ensure it doesn't overlap cards */
+    z-index: 9;
   }
   
+  /* Reposition the date label over the timeline */
   .current-date-label {
+    position: absolute;
     font-size: 0.65rem;
-    padding: 4px 8px;
+    padding: 4px 6px;
     right: auto;
-    left: 42px;
-    max-width: none; /* Remove max-width to prevent wrapping */
-    white-space: nowrap; /* Ensure text stays on one line */
-    background-color: rgba(240, 247, 255, 0.85); /* Semi-transparent background */
-    z-index: 8; /* Lower z-index */
+    left: 10px; /* Position directly over timeline */
+    top: 25px; /* Position below the horizontal line */
+    transform: none; /* Remove vertical centering */
+    max-width: 60px; /* Limit width to force wrapping */
+    white-space: normal; /* Allow wrapping */
+    text-align: center;
+    line-height: 1.2;
+    background-color: rgba(240, 247, 255, 0.95);
+    z-index: 20; /* Higher z-index */
+    border: 1px solid rgba(0, 0, 0, 0.08);
   }
   
   /* Completely rework card layout for mobile */

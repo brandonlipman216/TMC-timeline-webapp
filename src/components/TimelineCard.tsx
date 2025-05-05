@@ -92,11 +92,15 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
                 
                 <h3 className="text-base md:text-lg font-semibold text-gray-800 mt-3 md:mt-5 mb-3 md:mb-4">{event.title}</h3>
                 
-                <div className="mt-4 md:mt-8 text-sm font-medium text-blue-600 flex items-center">
-                  <svg className="w-3 h-3 md:w-4 md:h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <div className="text-sm font-medium text-blue-600 flex items-center">
+                  <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    {isFlipped ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    )}
                   </svg>
-                  Tap to see why it matters
+                  {isFlipped ? 'Tap to go back' : 'Tap to see why it matters'}
                 </div>
               </div>
             </div>
@@ -126,11 +130,15 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
                   <p className="leading-relaxed">{event.description}</p>
                 </div>
                 
-                <div className="mt-8 text-sm font-medium text-blue-600 flex items-center">
-                  <svg className="w-3 h-3 md:w-4 md:h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                <div className="text-sm font-medium text-blue-600 flex items-center">
+                  <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    {isFlipped ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    )}
                   </svg>
-                  Tap to go back
+                  {isFlipped ? 'Tap to go back' : 'Tap to see why it matters'}
                 </div>
               </div>
             </div>
