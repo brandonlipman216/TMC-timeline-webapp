@@ -245,58 +245,63 @@ h2 {
 
 /* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
-  /* Make timeline elements smaller and position further left */
+  /* Adjust timeline dots for mobile */
   .timeline-dot {
-    left: 12px;
-    width: 12px;
-    height: 12px;
+    left: 20px;
+    width: 14px;
+    height: 14px;
   }
   
   .timeline-dot.current {
-    left: 10px;
-    width: 16px;
-    height: 16px;
+    left: 18px;
+    width: 18px;
+    height: 18px;
   }
   
+/* Adjust timeline lines for mobile */
+  /* Adjust timeline lines for mobile */
   .timeline-line,
   .timeline-line-past {
-    left: 19px;
+    left: 27px;
   }
   
+  /* Adjust current date indicator for mobile */
   .current-date-indicator {
-    left: 0;
-    width: 30px;
+    le10pxt: 10px;
+    widt5: 35px;
   }
   
   .current-date-label {
     font-size: 0.65rem;
-    padding: 4px 6px;
+    padding: 8px 8px;
     right: auto;
-    left: 35px;
-    max-width: 100px;
+    le50: 50px;
+    max-widt2: 120px;
   }
   
-  /* Make cards more compact and smaller on mobile */
+  /* Make cards more compact on mobile */
   .flip-card {
     margin-bottom: 4rem;
-    max-width: calc(100% - 30px);
-    margin-left: auto;
-    margin-right: 10px;
-  }
-  
-  .flip-card-front, 
-  .flip-card-back {
-    padding: 1rem;
-  }
-  
-  .flip-card-front h3,
-  .flip-card-back h3 {
-    font-size: 1rem;
-    line-height: 1.4;
+    max-width: calc(100% - 10px);
+    margin-left: 0;
   }
   
   /* Fix padding for card front on mobile */
   .flip-card-front > div {
     padding: 1rem !important;
+  }
+  
+  .flip-card-front, 
+  .flip-card-back {
+    padding: 1.25rem;
+  }
+  
+  /* Adjust card title sizes */
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
   }
 }
