@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Timeline from '../components/Timeline';
+import ThemeToggle from '../components/ThemeToggle';
 import { timelineEvents } from '../data/timelineData';
 
 export default function Home() {
@@ -17,7 +18,8 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <ThemeToggle />
       <Timeline events={timelineEvents} currentDate={currentDate} />
     </main>
   );

@@ -2,13 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base theme variables - light theme by default */
 :root {
   --foreground-rgb: 13, 35, 64; /* Dark blue text color */
   --background-rgb: 248, 249, 250;
   --timeline-line: 229, 231, 235;
   --accent-color: 1, 138, 239; /* TMC bright blue */
   --corporate-blue: 13, 35, 64; /* TMC dark blue */
+  --card-bg: 255, 255, 255;
+  --card-border: 0, 0, 0, 0.04;
   --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --type-pill-policy-bg: 232, 238, 247;
+  --type-pill-company-bg: 254, 243, 199;
+  --type-pill-company-color: 146, 64, 14;
+  --type-pill-company-border: 251, 191, 36;
+  --timeline-dot-future: 229, 231, 235;
+  --timeline-dot-past: 16, 185, 129;
+  --timeline-line-past: 13, 150, 105;
+  --date-label-bg: 240, 247, 255;
+  --date-highlight-bg: 240, 249, 255;
+}
+
+/* Dark theme overrides */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --foreground-rgb: 229, 231, 235;
+    --background-rgb: 17, 24, 39;
+    --timeline-line: 55, 65, 81; /* Darker line */
+    --accent-color: 59, 130, 246; /* Blue adjusted for dark mode */
+    --corporate-blue: 165, 180, 252; /* Lighter blue for dark mode */
+    --card-bg: 31, 41, 55; /* Dark card background */
+    --card-border: 255, 255, 255, 0.05;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --type-pill-policy-bg: 30, 58, 138, 0.3;
+    --type-pill-company-bg: 120, 53, 15, 0.3;
+    --type-pill-company-color: 253, 230, 138;
+    --type-pill-company-border: 217, 119, 6, 0.5;
+    --timeline-dot-future: 75, 85, 99;
+    --timeline-dot-past: 5, 150, 105;
+    --timeline-line-past: 4, 120, 87;
+    --date-label-bg: 17, 24, 39, 0.8;
+    --date-highlight-bg: 30, 58, 138, 0.15;
+  }
+}
+
+/* Dark mode styles */
+.dark {
+  --foreground-rgb: 229, 231, 235; /* Light gray text color */
+  --background-rgb: 17, 24, 39; /* Dark background */
+  --timeline-line: 55, 65, 81; /* Darker line */
+  --accent-color: 59, 130, 246; /* Blue adjusted for dark mode */
+  --corporate-blue: 165, 180, 252; /* Lighter blue for dark mode */
+  --card-bg: 31, 41, 55; /* Dark card background */
+  --card-border: 255, 255, 255, 0.05;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --type-pill-policy-bg: 30, 58, 138, 0.3;
+  --type-pill-company-bg: 120, 53, 15, 0.3;
+  --type-pill-company-color: 253, 230, 138;
+  --type-pill-company-border: 217, 119, 6, 0.5;
+  --timeline-dot-future: 75, 85, 99;
+  --timeline-dot-past: 5, 150, 105;
+  --timeline-line-past: 4, 120, 87;
+  --date-label-bg: 17, 24, 39, 0.8;
+  --date-highlight-bg: 30, 58, 138, 0.15;
 }
 
 body {
@@ -23,7 +79,7 @@ body {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background-color: #e5e7eb; /* Default gray for future events */
+  background-color: rgb(var(--timeline-dot-future)); /* Theme-aware */
   position: absolute;
   left: 321px;
   top: 80%;
@@ -32,7 +88,7 @@ body {
 }
 
 .timeline-dot.past {
-  background-color: #10B981; /* Green for past events */
+  background-color: rgb(var(--timeline-dot-past)); /* Theme-aware */
 }
 
 .timeline-dot.current {
@@ -41,22 +97,24 @@ body {
   left: 318px;
   top: 70%;
   transform: translateY(-50%);
-  background-color: rgb(var(--accent-color)); /* Blue for current event */
+  background-color: rgb(var(--accent-color)); /* Theme-aware */
   animation: pulse 2s infinite;
 }
 
 /* Current date indicator - horizontal line crossing the timeline */
 .current-date-indicator {
   position: absolute;
-  width: 40px;
+  width: 25px;
   height: 3px;
   background-color: rgb(var(--accent-color));
-  left: 310px;
-  z-index: 11;
-  transform: translateY(-50%);
+  left: 317px;
+  z-index: 20; /* Increased z-index to ensure it's above all elements */
+  transform: none; /* Remove transform that could affect positioning */
   border-radius: 1.5px;
   display: flex;
   align-items: center;
+  margin-top: -40px; /* Add negative margin to move it up more on desktop */
+  pointer-events: none;
 }
 
 /* Current date label */
@@ -66,12 +124,16 @@ body {
   font-size: 0.75rem;
   font-weight: 600;
   color: rgb(var(--corporate-blue));
-  background-color: #f0f7ff;
+  background-color: rgba(var(--date-label-bg));
   padding: 6px 10px;
   border-radius: 6px;
   white-space: nowrap;
-  transform: translateY(-50%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  z-index: 21; /* Higher than indicator */
+  pointer-events: none;
+  /* Fixed vertical alignment - keep centered with line */
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* Timeline vertical line - continuous line between first and last card */
@@ -81,7 +143,7 @@ body {
   top: 0;
   bottom: 0; 
   width: 4px;
-  background-color: #e5e7eb;
+  background-color: rgb(var(--timeline-line));
   z-index: 5;
   height: 100%;
 }
@@ -92,7 +154,7 @@ body {
   left: 328px;
   top: 0;
   width: 4px;
-  background-color: #0D9669; /* Darker green to match the past dots */
+  background-color: rgb(var(--timeline-line-past));
   z-index: 6; /* Slightly higher z-index to appear above the gray line */
 }
 
@@ -145,13 +207,13 @@ body {
   min-height: inherit;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(var(--card-border));
   overflow: hidden;
   padding: 2.5rem;
   left: 0;
   box-sizing: border-box;
-  background-color: white;
+  background-color: rgb(var(--card-bg));
 }
 
 .flip-card-front {
@@ -173,13 +235,13 @@ body {
 }
 
 .type-pill.company {
-  background-color: #FEF3C7; /* Yellow background */
-  color: #92400E; /* Dark amber text color */
-  border: 1px solid #FBBF24; /* Yellow border */
+  background-color: rgb(var(--type-pill-company-bg));
+  color: rgb(var(--type-pill-company-color));
+  border: 1px solid rgb(var(--type-pill-company-border));
 }
 
 .type-pill.policy {
-  background-color: #e8eef7;
+  background-color: rgb(var(--type-pill-policy-bg));
   color: rgb(var(--corporate-blue));
   border: 1px solid rgba(var(--corporate-blue), 0.15);
 }
@@ -191,10 +253,10 @@ body {
 }
 
 .logo-box {
-  background-color: white;
+  background-color: rgb(var(--card-bg));
   padding: 1.75rem;
   border-radius: 2rem;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(var(--card-border));
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
   transition: all 0.3s ease;
 }
@@ -253,14 +315,14 @@ h2 {
   font-size: 0.875rem;
   font-weight: 500;
   color: rgba(var(--accent-color), 1);
-  background-color: white;
+  background-color: rgba(var(--card-bg), 0.8);
   transition: all 0.15s ease;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 
 .source-button:hover {
-  background-color: rgba(var(--accent-color), 0.05);
+  background-color: rgba(var(--accent-color), 0.1);
   border-color: rgba(var(--accent-color), 0.8);
 }
 
@@ -276,6 +338,35 @@ h2 {
   margin-right: 0.25rem;
 }
 
+/* Button container to display buttons side by side on larger screens */
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Jump to due date button specific styles */
+.jump-button {
+  background-color: rgba(var(--accent-color), 0.1);
+  border-color: rgba(var(--accent-color), 0.5);
+}
+
+.jump-button:hover {
+  background-color: rgba(var(--accent-color), 0.2);
+  border-color: rgba(var(--accent-color), 1);
+}
+
+.jump-button svg {
+  transform: translateX(0);
+  transition: transform 0.2s ease;
+}
+
+.jump-button:hover svg {
+  transform: translateX(2px);
+}
+
 /* Jump to current button styles */
 .jump-to-current-button {
   position: fixed;
@@ -283,7 +374,7 @@ h2 {
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Offset by half the button width */
   background-color: rgb(var(--accent-color));
-  color: white;
+  color: rgb(var(--card-bg));
   padding: 10px 16px;
   border-radius: 999px;
   font-size: 0.875rem;
@@ -305,6 +396,170 @@ h2 {
 .jump-to-current-button:active {
   transform: translateX(-50%) translateY(0); /* Keep centered while pressing */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Clickable date styles */
+.clickable-date {
+  color: rgb(var(--accent-color));
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: all 0.15s ease;
+  font-weight: 500;
+  background-color: rgba(var(--date-highlight-bg));
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+.clickable-date:hover {
+  text-decoration-thickness: 2px;
+  opacity: 0.9;
+}
+
+/* Theme toggle specific styles */
+.theme-toggle-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  padding: 2px;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-slider {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Theme Toggle Styles - Icons only */
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Update the track layout */
+.toggle-track {
+  width: 90px;
+  height: 40px;
+  background-color: #f1f5f9;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px;
+  position: relative;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dark .toggle-track {
+  background-color: #1e293b;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.toggle-icon {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+  color: #555; /* Neutral color for both icons */
+}
+
+.dark .toggle-icon {
+  color: #ccc; /* Neutral light color for dark mode */
+}
+
+/* Hide text labels */
+.toggle-text {
+  display: none;
+}
+
+/* Remove colored styling */
+.light-icon, .dark-icon, 
+.dark .light-icon, .dark .dark-icon {
+  color: inherit; /* Use parent color */
+}
+
+.toggle-thumb {
+  position: absolute;
+  width: 42px;
+  height: 34px;
+  background-color: white;
+  border-radius: 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dark .toggle-thumb {
+  background-color: #334155;
+}
+
+.toggle-thumb-left {
+  transform: translateX(0);
+}
+
+.toggle-thumb-right {
+  transform: translateX(44px);
+}
+
+/* Mobile adjustments for theme toggle */
+@media (max-width: 768px) {
+  /* Fixed positioning for theme toggle - always bottom right */
+  .theme-toggle-container {
+    position: fixed;
+    top: auto;
+    bottom: 16px;
+    right: 16px;
+    transform: scale(0.7);
+    transform-origin: bottom right;
+    margin: 0;
+    padding: 0;
+    z-index: 100; /* Keep it above other elements */
+  }
+
+  /* Make the toggle visible by ensuring it has a background */
+  .theme-toggle {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    padding: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    margin: 0;
+  }
+  
+  .dark .theme-toggle {
+    background-color: rgba(30, 41, 59, 0.9);
+  }
+  
+  /* Adjust the toggle track size to fit better on small screens */
+  .toggle-track {
+    width: 80px;
+    height: 36px;
+  }
+  
+  /* Adjust the thumb position for the smaller track */
+  .toggle-thumb {
+    width: 38px;
+    height: 30px;
+  }
+  
+  .toggle-thumb-right {
+    transform: translateX(38px);
+  }
+  
+  /* Ensure Jump button is always centered */
+  .jump-to-current-button {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 16px;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
 }
 
 /* Media query for mobile source button */
@@ -346,9 +601,12 @@ h2 {
   
   /* Position current date indicator over the timeline */
   .current-date-indicator {
-    left: 0;
-    width: 38px;
-    z-index: 9;
+    width: 20px;
+    left: 10px;
+    z-index: 20;
+    margin-top: 0; /* Reset margin for mobile */
+    height: 2px;
+    transform: none;
   }
   
   /* Reposition the date label ABOVE the timeline */
@@ -364,7 +622,7 @@ h2 {
     white-space: nowrap; /* Keep on one line */
     text-align: left;
     line-height: 1.2;
-    background-color: rgba(240, 247, 255, 0.85); /* Semi-transparent */
+    background-color: rgba(var(--date-label-bg), 0.85); /* Semi-transparent */
     z-index: 20;
     border: 1px solid rgba(0, 0, 0, 0.08);
   }

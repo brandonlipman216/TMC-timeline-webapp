@@ -8,7 +8,7 @@ const unsortedEvents: TimelineEvent[] = [
     date: parseISO('2025-02-14'),
     type: 'Policy',
     title: 'Executive Order 14213, "Establishing the National Energy Dominance Council" signed',
-    description: 'Creates the National Energy Dominance Council within the Executive Office of the President to advise the President on expanding U.S. energy production, cutting red tape, and prioritizing critical minerals—including copper, uranium, gold, and potash—for infrastructure and clean-energy projects. Sec. 4(d) requires the Council, within 100 days (due Jun 24, 2025), to recommend a national plan to raise awareness of energy dominance and actions agencies can take to accelerate permitting and production. The Council is composed of Cabinet secretaries from Interior, Energy, Commerce, and Defense, plus key White House advisors. This establishes the whole-of-government approach that will expedite TMC\'s permitting timeline. The creation of this Council signals administrative priority for critical minerals and establishes the policy foundation for all subsequent executive actions affecting TMC\'s permitting and development timeline.',
+    description: 'Creates the National Energy Dominance Council within the Executive Office of the President to advise the President on expanding U.S. energy production, cutting red tape, and prioritizing critical minerals—including copper, uranium, gold, and potash—for infrastructure and clean-energy projects. Sec. 4(d) requires the Council, within 100 days (due June 24, 2025), to recommend a national plan to raise awareness of energy dominance and actions agencies can take to accelerate permitting and production. The Council is composed of Cabinet secretaries from Interior, Energy, Commerce, and Defense, plus key White House advisors. This establishes the whole-of-government approach that will expedite TMC\'s permitting timeline. The creation of this Council signals administrative priority for critical minerals and establishes the policy foundation for all subsequent executive actions affecting TMC\'s permitting and development timeline.',
     sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/02/establishing-the-national-energy-dominance-council/'
   },
   {
@@ -56,7 +56,7 @@ const unsortedEvents: TimelineEvent[] = [
     date: parseISO('2025-04-09'),
     type: 'Policy',
     title: 'Executive Order 2025-04-09, "Restoring America\'s Maritime Dominance" signed',
-    description: 'Establishes a whole-of-government strategy to rebuild U.S. shipyards, ports, and the maritime workforce (Secs 2–3); modernize critical facilities (Sec 14); leverage DPA Title III for domestic shipbuilding (Sec 4). Provides the policy backbone for TMC\'s vessel commissioning, crewing, and port operations. Directs DOT and DOD to create a Maritime Workforce Pipeline Initiative that will ensure skilled personnel availability for TMC\'s offshore operations. Establishes dedicated funding mechanisms for port infrastructure improvements and specialized offshore support vessel construction that TMC can leverage for its collection operations.',
+    description: 'Establishes a whole-of-government strategy to rebuild U.S. shipyards, ports, and the maritime workforce (Secs 2–3); modernize critical facilities (Sec 14); leverage DPA Title III for domestic shipbuilding (Sec 4). Provides the policy backbone for TMC\'s vessel commissioning, crewing, and port operations. Directs DOT and DOD to create a Maritime Workforce Pipeline Initiative that will ensure skilled personnel availability for TMC\'s offshore operations. Sec. 14(a)(i) requires staff hiring within 30 days (due May 9, 2025), while multiple 90-day deliverables (due July 8, 2025) establish key programs. The 180-day Defense-Industrial-Base Assessment (due October 6, 2025) and 210-day Maritime Action Plan (due November 5, 2025) will define funding mechanisms that TMC can leverage for collection operations.',
     sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/restoring-americas-maritime-dominance/'
   },
   {
@@ -72,7 +72,7 @@ const unsortedEvents: TimelineEvent[] = [
     date: parseISO('2025-04-15'),
     type: 'Policy',
     title: 'Executive Order 2025-04-15, "Ensuring National Security and Economic Resilience Through Section 232 Actions on Processed Critical Minerals and Derivative Products" signed',
-    description: 'Launches a Section 232 investigation into imports of processed critical minerals (nickel sulfate, cobalt, copper derivatives) to assess supply-chain vulnerabilities and national-security risks. Its scope (Sec 3) dictates whether tariffs, quotas, or incentives are imposed—directly shaping the economics of TMC\'s downstream nodule-refining and offtake agreements. Orders Commerce to complete a preliminary determination of strategic mineral supply chain risks within 90 days, with a focus on battery metals that polymetallic nodules contain in abundance. Creates a formal interagency review process to evaluate defense requirements for critical minerals and potential for domestic processing capacity expansion.',
+    description: 'Launches a Section 232 investigation into imports of processed critical minerals (nickel sulfate, cobalt, copper derivatives) to assess supply-chain vulnerabilities and national-security risks. Its scope (Sec 3) dictates whether tariffs, quotas, or incentives are imposed—directly shaping the economics of TMC\'s downstream nodule-refining and offtake agreements. Orders Commerce to complete a preliminary determination within 90 days (due July 14, 2025), followed by a 15-day comment period (due July 29, 2025). The final Section 232 report is due within 180 days (due October 12, 2025), with recommendations that will directly shape TMC\'s refining economics and offtake negotiations.',
     sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/ensuring-national-security-and-economic-resilience-through-section-232-actions-on-processed-critical-minerals-and-derivative-products/'
   },
   {
@@ -80,7 +80,7 @@ const unsortedEvents: TimelineEvent[] = [
     date: parseISO('2025-04-24'),
     type: 'Policy',
     title: 'Executive Order 2025-04-24, "Unleashing America\'s Offshore Critical Minerals and Resources" signed',
-    description: 'Declares seabed minerals a U.S. strategic priority; directs NOAA/BOEM to expedite DSHMRA & OCSLA permitting (Sec 3). Mandates 60-day interagency reports on exploration, processing, mapping, allied engagement, and Defense Stockpile feasibility—synchronizing every stakeholder TMC needs for a fast-tracked permit path. Creates a Deep Seabed Minerals Working Group co-chaired by NOAA and DOD to coordinate all federal activities related to polymetallic nodules. Directs Navy oceanographic assets to prioritize bathymetric mapping of CCZ areas where U.S. companies hold exploration rights, directly benefiting TMC\'s NORI and TOML areas.',
+    description: 'Declares seabed minerals a U.S. strategic priority; directs NOAA/BOEM to expedite DSHMRA & OCSLA permitting (Sec 3). Mandates 60-day interagency reports (due June 23, 2025) on exploration, processing, mapping, allied engagement, and Defense Stockpile feasibility—synchronizing every stakeholder TMC needs for a fast-tracked permit path. Creates a Deep Seabed Minerals Working Group co-chaired by NOAA and DOD to coordinate all federal activities related to polymetallic nodules. Directs Navy oceanographic assets to prioritize bathymetric mapping of CCZ areas where U.S. companies hold exploration rights, directly benefiting TMC\'s NORI and TOML areas.',
     sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/04/unleashing-americas-offshore-critical-minerals-and-resources/'
   },
   {
@@ -88,7 +88,7 @@ const unsortedEvents: TimelineEvent[] = [
     date: parseISO('2025-04-29'),
     type: 'Policy',
     title: 'DSHMRA Filing: Submission of exploration-license & commercial-recovery-permit applications to NOAA',
-    description: 'Under the Deep Seabed Hard Mineral Resources Act (30 U.S.C. §1401 et seq.) and NOAA regs (15 C.F.R. §§970–971), these filings trigger mandatory 30-day (exploration) and 60-day (commercial) "completeness" reviews before any NEPA scoping or EIS work can begin. TMC cannot proceed with offshore operations or vessel financing until these gateways clear. The applications include detailed environmental monitoring plans, collector design specifications, and metallurgical processing flow sheets for the nodules. Submission represents over 80,000 pages of technical documentation, baseline studies, and economic analyses—the most comprehensive deep-sea mining package ever prepared for U.S. regulators.',
+    description: 'Under the Deep Seabed Hard Mineral Resources Act (30 U.S.C. §1401 et seq.) and NOAA regs (15 C.F.R. §§970–971), these filings trigger mandatory 30-day exploration review (due May 29, 2025) and 60-day commercial review (due June 28, 2025) "completeness" assessments before any NEPA scoping or EIS work can begin. TMC cannot proceed with offshore operations or vessel financing until these gateways clear. The applications include detailed environmental monitoring plans, collector design specifications, and metallurgical processing flow sheets for the nodules. Submission represents over 80,000 pages of technical documentation, baseline studies, and economic analyses—the most comprehensive deep-sea mining package ever prepared for U.S. regulators.',
     sourceUrl: 'https://investors.metals.co/news-releases/news-release-details/world-first-tmc-usa-submits-application-commercial-recovery-deep'
   },
   {
@@ -339,6 +339,22 @@ const unsortedEvents: TimelineEvent[] = [
     title: 'TMC and PAMCO Achieve Breakthrough in Polymetallic Nodule Processing',
     description: 'TMC announces a significant technological milestone with Pacific Metals Co. (PAMCO) in processing deep-sea polymetallic nodules. This collaboration demonstrates successful extraction of critical battery metals (nickel, copper, cobalt, and manganese) using an environmentally-superior processing method. The breakthrough validates TMC\'s metallurgical strategy and bolsters the commercial viability argument in their permit applications. By proving efficient extraction technology exists for nodule resources, TMC addresses a key technical requirement under DSHMRA §1413(c) regarding technological capability. This achievement strengthens investor confidence and provides evidence to regulators that the full value chain from collection to processing has been commercially validated.',
     sourceUrl: 'https://investors.metals.co/news-releases/news-release-details/world-first-tmc-and-pamco-achieve-new-nodule-processing'
+  },
+  {
+    id: '41',
+    date: parseISO('2025-02-03'),
+    type: 'Policy',
+    title: 'Executive Order, "A Plan for Establishing a United States Sovereign Wealth Fund" signed',
+    description: 'Directs Treasury and Commerce to develop a plan within 90 days (due May 4, 2025) for establishing the first U.S. sovereign wealth fund to promote fiscal sustainability, reduce tax burdens, and enhance U.S. economic leadership. For TMC, this represents a potential new source of strategic investment in critical mineral projects deemed essential to national security. The fund could become a cornerstone investor in TMC\'s capital-intensive deep-sea mining operations, providing patient capital aligned with long-term national interests rather than short-term market pressures. As critical minerals increasingly become subject to geopolitical competition, access to sovereign investment could give TMC a competitive advantage in scaling operations and processing infrastructure beyond what traditional capital markets might support.',
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/02/a-plan-for-establishing-a-united-states-sovereign-wealth-fund/'
+  },
+  {
+    id: '42',
+    date: parseISO('2025-05-04'),
+    type: 'Policy',
+    title: 'Executive Order on U.S. Sovereign Wealth Fund: 90-day plan submission due',
+    description: 'Treasury and Commerce must deliver detailed recommendations for funding mechanisms, investment strategies, fund structure, governance model, and legal framework for the U.S. Sovereign Wealth Fund. For TMC, the submitted plan could outline priority sectors for sovereign investment, potentially including critical mineral supply chains and strategic resource projects. The recommendations will likely address whether the fund would take direct project stakes in strategic mineral developments or operate through specialized investment vehicles, which would determine how TMC could tap this funding source. Industry analysts will closely watch whether deep-sea minerals are specifically highlighted as a strategic sector eligible for sovereign investment, which could significantly improve TMC\'s financing options during its capital-intensive development phase.',
+    sourceUrl: 'https://www.whitehouse.gov/presidential-actions/2025/02/a-plan-for-establishing-a-united-states-sovereign-wealth-fund/'
   }
 ];
 

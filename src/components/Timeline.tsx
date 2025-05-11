@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, useMemo } from 'react';
 import TimelineCard from './TimelineCard';
 import { TimelineEvent } from '../types';
-import { format } from 'date-fns';
+import { format, parse, isValid } from 'date-fns';
 
 interface TimelineProps {
   events: TimelineEvent[];
@@ -58,43 +58,42 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
       if (sortedEvents.length > 0) {
         try {
           // Position at first event
-          const firstElementRect = timelineRef.current.children[0].getBoundingClientRect();
-          newPosition = firstElementRect.top + window.scrollY;
-          shouldShowIndicator = true;
+          const firstEventElement = timelineRef.current.querySelector('.timeline-event-card');
+          if (firstEventElement) {
+            const firstElementRect = firstEventElement.getBoundingClientRect();
+            newPosition = firstElementRect.top + window.scrollY;
+            shouldShowIndicator = true;
+          }
         } catch (error) {
           console.error('Error calculating first element position:', error);
         }
       }
     } 
     else {
-      // Current date is between two events
       try {
-        const previousEvent = sortedEvents[pendingEventIndex - 1];
-        const nextEvent = sortedEvents[pendingEventIndex];
+        // Get the pending event element directly
+        const eventElements = Array.from(timelineRef.current.querySelectorAll('.timeline-event-card'));
         
-        // Get time differences
-        const totalTimespan = nextEvent.date.getTime() - previousEvent.date.getTime();
-        const currentTimespan = currentDate.getTime() - previousEvent.date.getTime();
-        
-        // Calculate position ratio between 0 and 1
-        const ratio = Math.max(0, Math.min(1, currentTimespan / totalTimespan));
-        
-        // Get event elements from all children
-        const children = Array.from(timelineRef.current.children);
-        const eventElements = children.filter(child => 
-          child.className.includes('relative')
-        );
-        
-        if (eventElements.length > pendingEventIndex - 1 && eventElements.length > pendingEventIndex) {
-          const previousElementRect = eventElements[pendingEventIndex - 1].getBoundingClientRect();
-          const nextElementRect = eventElements[pendingEventIndex].getBoundingClientRect();
+        // If we have a pending event, ALWAYS position the current date BEFORE it
+        if (eventElements.length > pendingEventIndex) {
+          const nextEventElement = eventElements[pendingEventIndex];
+          const nextEventRect = nextEventElement.getBoundingClientRect();
           
-          // Calculate position
-          newPosition = previousElementRect.top + 
-            (ratio * (nextElementRect.top - previousElementRect.top)) + 
-            window.scrollY;
-            
+          // Position at least 80px above the next event - very large buffer to ensure separation
+          // This ensures the date indicator is visibly before the next event
+          newPosition = nextEventRect.top + window.scrollY - 80;
+          
+          // Additional check: If this would place indicator very close to the top, adjust
+          if (newPosition < window.scrollY + 50) {
+            newPosition = window.scrollY + 50;
+          }
+          
           shouldShowIndicator = true;
+          
+          // Log for debugging
+          console.log('Current date:', formattedCurrentDate);
+          console.log('Next event date:', format(sortedEvents[pendingEventIndex].date, 'MMM d, yyyy'));
+          console.log('Position current date indicator at:', newPosition);
         }
       } catch (error) {
         console.error('Error calculating date position:', error);
@@ -108,7 +107,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     } else if (!shouldShowIndicator && showDateIndicator) {
       setShowDateIndicator(false);
     }
-  }, [pendingEventIndex, sortedEvents, currentDate, currentDatePosition, showDateIndicator]);
+  }, [pendingEventIndex, sortedEvents, currentDate, currentDatePosition, showDateIndicator, formattedCurrentDate]);
   
   // Scroll to pending event on load - use a ref to ensure this only runs once
   const hasScrolled = useRef(false);
@@ -168,8 +167,48 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
     }
   };
 
+  // Function to jump to a specific date in the timeline
+  const jumpToDate = (dateText: string) => {
+    if (!timelineRef.current) return;
+    
+    // Try to parse the date from text using various formats
+    const possibleFormats = [
+      'MMM d, yyyy', 'MMM d yyyy', 'MMMM d, yyyy', 'MMMM d yyyy',
+      'MMM dd, yyyy', 'MMM dd yyyy', 'MMMM dd, yyyy', 'MMMM dd yyyy'
+    ];
+    
+    let targetDate: Date | null = null;
+    
+    // Try each format until we find one that works
+    for (const dateFormat of possibleFormats) {
+      const parsedDate = parse(dateText, dateFormat, new Date());
+      if (isValid(parsedDate)) {
+        targetDate = parsedDate;
+        break;
+      }
+    }
+    
+    if (!targetDate) return;
+    
+    // Find the event closest to this date
+    const eventElements = Array.from(timelineRef.current.children)
+      .filter(child => child.className.includes('timeline-event-card'));
+    
+    // Find index of event that matches this date, or is closest to it
+    const targetIndex = sortedEvents.findIndex(event => {
+      return format(event.date, 'MMM d, yyyy') === format(targetDate!, 'MMM d, yyyy');
+    });
+    
+    if (targetIndex >= 0 && eventElements[targetIndex]) {
+      eventElements[targetIndex].scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  };
+
   return (
-    <div className="container mx-auto px-1 md:px-6 py-4 md:py-8"> {/* Reduced padding even more */}
+    <div className="container mx-auto px-1 md:px-6 py-4 md:py-8">
       <div className="text-center mb-6 md:mb-12">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">
           The Metals Company
@@ -184,13 +223,16 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
           {/* Continuous timeline line that spans the entire container */}
           <div className="timeline-line" ref={timelineLineRef}></div>
           
-          {/* Past timeline line segment */}
+          {/* Past timeline line segment - adjusted height for desktop view */}
           {showDateIndicator && (
             <div 
               className="timeline-line-past"
               style={{ 
                 top: 0,
-                height: `${currentDatePosition}px` 
+                // Adjust height based on viewport to account for the margin-top in CSS
+                height: isMobileView 
+                  ? `${currentDatePosition}px` 
+                  : `${currentDatePosition - 40}px` // Subtract desktop margin offset
               }}
             ></div>
           )}
@@ -215,6 +257,7 @@ export default function Timeline({ events, currentDate }: TimelineProps) {
                 event={event}
                 isPending={index === pendingEventIndex}
                 isPast={index < pendingEventIndex}
+                onJumpToDate={jumpToDate}
               />
             </div>
           ))}

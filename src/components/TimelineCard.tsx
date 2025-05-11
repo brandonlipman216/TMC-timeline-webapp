@@ -5,21 +5,23 @@ import { TimelineEvent } from '../types';
 interface TimelineCardProps {
   event: TimelineEvent;
   isPending: boolean;
-  isPast: boolean; 
+  isPast: boolean;
+  dueDateEventId?: string;
+  onJumpToEvent?: (eventId: string) => void;
+  onJumpToDate: (dateText: string) => void;
 }
 
-export default function TimelineCard({ event, isPending, isPast }: TimelineCardProps) {
+export default function TimelineCard({ event, isPending, isPast, dueDateEventId, onJumpToEvent, onJumpToDate }: TimelineCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [containerHeight, setContainerHeight] = useState<number | null>(null);
   const frontCardRef = useRef<HTMLDivElement>(null);
   const backCardRef = useRef<HTMLDivElement>(null);
   
   const formatDate = (date: Date) => {
-    // Special case for PFS Release - check if title includes "(Q2 2025)"
     if (event.title.includes('(Q2 2025)')) {
       return 'Q2 2025';
     }
-    return format(date, 'MMM dd, yyyy');
+    return format(date, 'MMM d, yyyy'); // Changed from 'MMM dd, yyyy' to match the current date format
   };
   
   const formatCompression = (compression: string | undefined) => {
@@ -30,36 +32,26 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
     return `(${compression} Time Compression)`;
   };
 
-  // Format description into paragraphs, with 3 sentences per paragraph
   const formatDescription = (description: string) => {
     if (typeof description !== 'string') return <p className="leading-relaxed">{description}</p>;
     
-    // For shorter descriptions (increased threshold), don't split into paragraphs
     if (description.length < 1000) {
-      return <p className="leading-relaxed">{description}</p>;
+      return processDescriptionWithClickableDates(description);
     }
     
-    // First, explicitly fix the problematic "$2.$5 billion" pattern
     description = description.replace(/\$(\d+)\.(\$)(\d+)\s+(billion|million|trillion|thousand)/gi, 
       (_, dollars, __, cents, unit) => `$${dollars}.${cents} ${unit}`
     );
-    
-    // First, protect dollar amounts with decimals by replacing them with placeholders
-    // This prevents the decimal point from being treated as a sentence end
     const dollarPlaceholders: {[key: string]: string} = {};
     let placeholderCount = 0;
-    
-    // Improved regex to better capture dollar amounts with decimals - FIXING MATCH VARIABLE HERE
     let processedText = description.replace(/(\$\d+\.\d+|\d+\.\d+)\s+(billion|million|trillion|thousand)/gi, (matchStr) => {
       const placeholder = `DOLLAR_PLACEHOLDER_${placeholderCount++}`;
       dollarPlaceholders[placeholder] = matchStr.startsWith('$') ? matchStr : `$${matchStr}`;
       return placeholder;
     });
-    
-    // Pre-process: Replace common abbreviations temporarily to prevent incorrect splits
     processedText = processedText
       .replace(/U\.S\./g, "US_PLACEHOLDER")
-      .replace(/C\.F\.R\.\s+§\d+\.\d+/g, (matchText) => `CFR_SECTION_PLACEHOLDER_${placeholderCount++}`) // Handle C.F.R. §NN.NN pattern
+      .replace(/C\.F\.R\.\s+§\d+\.\d+/g, (matchText) => `CFR_SECTION_PLACEHOLDER_${placeholderCount++}`)
       .replace(/C\.F\.R\./g, "CFR_PLACEHOLDER")
       .replace(/e\.g\./g, "EG_PLACEHOLDER")
       .replace(/i\.e\./g, "IE_PLACEHOLDER")
@@ -67,73 +59,50 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
       .replace(/et seq\./g, "ETSEQ_PLACEHOLDER")
       .replace(/§§/g, "SECTIONS_PLACEHOLDER")
       .replace(/§/g, "SECTION_PLACEHOLDER");
-    
-    // Store CFR section references for restoration
     const cfrSections: {[key: string]: string} = {};
     processedText.replace(/CFR_SECTION_PLACEHOLDER_(\d+)/g, (matchText, index) => {
       cfrSections[matchText] = dollarPlaceholders[`DOLLAR_PLACEHOLDER_${index}`] || matchText;
       return matchText;
     });
-    
-    // Better sentence detection - look for periods followed by space and capital letter or quotation
     const sentences: string[] = [];
     const sentenceRegex = /[^.!?]+[.!?]+(?=\s+[A-Z0-9"]|$)/g;
     let sentenceMatch: RegExpExecArray | null;
-    
     while ((sentenceMatch = sentenceRegex.exec(processedText)) !== null) {
       const sentence = sentenceMatch[0].trim();
       if (sentence) {
         sentences.push(sentence);
       }
     }
-    
-    // If regex didn't capture all text, add remaining content as a sentence
     if (sentences.join('').length < processedText.length && sentences.length > 0) {
       const lastSentenceEnd = processedText.indexOf(sentences[sentences.length - 1]) + 
                              sentences[sentences.length - 1].length;
       const remainingText = processedText.substring(lastSentenceEnd).trim();
-      
       if (remainingText) {
         sentences.push(remainingText);
       }
     }
-    
-    // If no sentences were matched, treat the whole text as one sentence
     if (sentences.length === 0) {
       sentences.push(processedText);
     }
-    
-    // Format dollar amounts in each sentence and restore placeholders
     const formattedSentences = sentences.map(sentence => {
-      // First restore all dollar amount placeholders
       let formattedSentence = sentence;
       Object.keys(dollarPlaceholders).forEach(placeholder => {
         formattedSentence = formattedSentence.replace(placeholder, dollarPlaceholders[placeholder]);
       });
-      
-      // Restore CFR section references
       Object.keys(cfrSections).forEach(placeholder => {
         formattedSentence = formattedSentence.replace(placeholder, cfrSections[placeholder]);
       });
-      
-      // Handle remaining whole numbers like "2 billion" that didn't have decimals
-      // And make sure we don't mess with text that already has a dollar sign before or after a decimal
       formattedSentence = formattedSentence.replace(/(?<!\$[\d.]*)\b(\d+)\s+(billion|million|trillion|thousand)/gi, 
         (matchText, number, unit) => {
-          // Improved check to avoid adding dollar signs to numbers that already have them in context
           if (matchText.includes('$') || formattedSentence.includes(`$${number}.`)) return matchText;
           return `$${number} ${unit}`;
         });
-      
       return formattedSentence;
     });
-    
-    // Group sentences into paragraphs of 3
     const paragraphs = [];
     for (let i = 0; i < formattedSentences.length; i += 3) {
       let paragraph = formattedSentences.slice(i, Math.min(i + 3, formattedSentences.length)).join(' ');
-      
-      // Post-process: Restore abbreviations
+      paragraph = processDateReferencesInString(paragraph);
       paragraph = paragraph
         .replace(/US_PLACEHOLDER/g, "U.S.")
         .replace(/CFR_PLACEHOLDER/g, "C.F.R.")
@@ -144,44 +113,48 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
         .replace(/SECTIONS_PLACEHOLDER/g, "§§")
         .replace(/SECTION_PLACEHOLDER/g, "§")
         .replace(/CFR_SECTION_PLACEHOLDER_\d+/g, (matchText) => {
-          return cfrSections[matchText] || "C.F.R. §"; // Fallback
+          return cfrSections[matchText] || "C.F.R. §";
         });
-      
       if (paragraph.trim()) {
         paragraphs.push(paragraph.trim());
       }
     }
-    
-    // Remove any standalone periods at the end of paragraphs
     const cleanedParagraphs = paragraphs.map(p => 
       p.endsWith('.') && p.charAt(p.length - 2) === ' ' ? p.slice(0, -1).trim() : p
     );
-    
     return cleanedParagraphs.map((paragraph, i) => (
-      <p key={i} className="leading-relaxed mb-4">
-        {paragraph}
-      </p>
+      <p key={i} className="leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: paragraph }} />
     ));
   };
 
-  // Calculate dynamic spacing based on description length and flipped state
+  const processDescriptionWithClickableDates = (text: string) => {
+    const processedText = processDateReferencesInString(text);
+    return <p className="leading-relaxed" dangerouslySetInnerHTML={{ __html: processedText }} />;
+  };
+
+  const processDateReferencesInString = (text: string) => {
+    const datePattern = /\b(due(?:\s+(?:by|on))?\s+)?([A-Za-z]+\s+\d{1,2},?\s+\d{4})\b/gi;
+    return text.replace(datePattern, (match, prefix, dateText) => {
+      if (prefix) {
+        return `${prefix}<span class="clickable-date" onclick="event.stopPropagation(); window.jumpToTimelineDate('${dateText.trim()}')">${dateText}</span>`;
+      } else {
+        return `<span class="clickable-date" onclick="event.stopPropagation(); window.jumpToTimelineDate('${match.trim()}')">${match}</span>`;
+      }
+    });
+  };
+
   const getMarginClass = () => {
-    // Increased base margins for more vertical spacing between cards
     const contentLength = event.description.length;
-    
-    // Increase margin when flipped to account for description length
     if (isFlipped) {
-      if (contentLength > 500) return 'mb-64'; // Increased from mb-48
-      if (contentLength > 300) return 'mb-56'; // Increased from mb-40
-      return 'mb-48';                          // Increased from mb-36
+      if (contentLength > 500) return 'mb-64';
+      if (contentLength > 300) return 'mb-56';
+      return 'mb-48';
     }
-    // Default margins when not flipped - also increased
-    if (contentLength > 500) return 'mb-48';   // Increased from mb-36
-    if (contentLength > 300) return 'mb-40';   // Increased from mb-32
-    return 'mb-36';                            // Increased from mb-28
+    if (contentLength > 500) return 'mb-48';
+    if (contentLength > 300) return 'mb-40';
+    return 'mb-36';
   };
   
-  // Update card heights when flipped to ensure enough space
   useEffect(() => {
     if (isFlipped && backCardRef.current) {
       const height = backCardRef.current.scrollHeight;
@@ -192,38 +165,44 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
     }
   }, [isFlipped]);
 
+  useEffect(() => {
+    window.jumpToTimelineDate = (dateText: string) => {
+      onJumpToDate(dateText);
+    };
+    return () => {
+      delete window.jumpToTimelineDate;
+    };
+  }, [onJumpToDate]);
+
   return (
     <div className={`relative ${getMarginClass()}`}>
-      {/* Timeline visual elements */}
       <div className="timeline-line"></div>
       <div className={`timeline-dot ${isPending ? 'current' : isPast ? 'past' : ''}`}></div>
       
-      {/* Card container with flip functionality */}
-      <div className="ml-10 md:ml-48 sm:ml-34 relative"> {/* Increased margins by 20% */}
+      <div className="ml-10 md:ml-48 sm:ml-34 relative">
         <div 
           className="flip-card cursor-pointer"
           onClick={() => setIsFlipped(!isFlipped)}
           style={containerHeight ? { minHeight: `${containerHeight}px` } : {}}
         >
           <div className={`flip-card-inner ${isFlipped ? 'flipped' : ''}`}>
-            {/* Front of card - Event title and date */}
             <div className="flip-card-front">
-              <div ref={frontCardRef} className="bg-white p-4 md:p-14">
+              <div ref={frontCardRef} className="bg-white dark:bg-gray-800 p-4 md:p-14">
                 <div className="flex items-center justify-between mb-3">
                   <span className={`type-pill ${event.type === 'Company' ? 'company' : 'policy'}`}>
                     {event.type}
                   </span>
                   <div className="text-right">
-                    <div className="text-xs md:text-sm font-medium text-gray-500">{formatDate(event.date)}</div>
+                    <div className="text-xs md:text-sm font-medium text-gray-500 dark:text-gray-400">{formatDate(event.date)}</div>
                     {event.isVariableTimeline && (
-                      <div className="mt-1 text-xs px-2 py-0.5 md:py-1 bg-gray-100 rounded-md font-medium text-gray-600 inline-block">
+                      <div className="mt-1 text-xs px-2 py-0.5 md:py-1 bg-gray-100 dark:bg-gray-700 rounded-md font-medium text-gray-600 dark:text-gray-300 inline-block">
                         {formatCompression(event.compressionLevel)}
                       </div>
                     )}
                   </div>
                 </div>
-                <h3 className="text-base md:text-lg font-semibold text-gray-800 mt-3 md:mt-5 mb-3 md:mb-4">{event.title}</h3>
-                <div className="text-sm font-medium text-blue-600 flex items-center">
+                <h3 className="text-base md:text-lg font-semibold text-gray-800 dark:text-gray-100 mt-3 md:mt-5 mb-3 md:mb-4">{event.title}</h3>
+                <div className="text-sm font-medium text-blue-600 dark:text-blue-400 flex items-center">
                   <svg 
                     className="w-3 h-3 mr-1" 
                     fill="none" 
@@ -242,9 +221,8 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
               </div>
             </div>
             
-            {/* Back of card - Description */}
             <div className="flip-card-back">
-              <div ref={backCardRef} className="bg-white">
+              <div ref={backCardRef} className="bg-white dark:bg-gray-800">
                 <div className="mb-4 flex justify-between">
                   <span className={`type-pill ${
                     event.type === 'Company' ? 'company' : 'policy'
@@ -252,30 +230,29 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
                     {event.type}
                   </span>
                   <div className="text-right">
-                    <div className="text-sm font-medium text-gray-500">{formatDate(event.date)}</div>
+                    <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{formatDate(event.date)}</div>
                     {event.isVariableTimeline && (
-                      <div className="mt-1 text-xs px-2 py-1 bg-gray-100 rounded-md font-medium text-gray-600 inline-block">
+                      <div className="mt-1 text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md font-medium text-gray-600 dark:text-gray-300 inline-block">
                         {formatCompression(event.compressionLevel)}
                       </div>
                     )}
                   </div>
                 </div>
                 
-                <h3 className="text-lg font-semibold mb-5 text-gray-800">Why it matters</h3>
+                <h3 className="text-lg font-semibold mb-5 text-gray-800 dark:text-gray-100">Why it matters</h3>
                 
-                <div className="text-sm text-gray-600 mb-6">
+                <div className="text-sm text-gray-600 dark:text-gray-300 mb-6">
                   {formatDescription(event.description)}
                 </div>
                 
-                {/* View Source button - show only if sourceUrl exists */}
-                {event.sourceUrl && (
-                  <div className="mt-4 mb-5"> {/* Increased margin-bottom from mb-2 to mb-5 */}
+                <div className="button-container">
+                  {event.sourceUrl && (
                     <a 
                       href={event.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="source-button"
-                      onClick={(e) => e.stopPropagation()} // Prevent card flip when clicking link
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <svg 
                         className="w-3.5 h-3.5 mr-1" 
@@ -293,10 +270,36 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
                       </svg>
                       View Source
                     </a>
-                  </div>
-                )}
+                  )}
+                  
+                  {dueDateEventId && onJumpToEvent && (
+                    <button 
+                      className="source-button jump-button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onJumpToEvent(dueDateEventId);
+                      }}
+                    >
+                      <svg 
+                        className="w-3.5 h-3.5 mr-1" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          strokeWidth={2} 
+                          d="M17 8l4 4m0 0l-4 4m4-4H3" 
+                        />
+                      </svg>
+                      Jump to due date
+                    </button>
+                  )}
+                </div>
                 
-                <div className="text-sm font-medium text-blue-600 flex items-center">
+                <div className="text-sm font-medium text-blue-600 dark:text-blue-400 flex items-center">
                   <svg 
                     className="w-3 h-3 mr-1" 
                     fill="none" 
@@ -319,4 +322,11 @@ export default function TimelineCard({ event, isPending, isPast }: TimelineCardP
       </div>
     </div>
   );
+}
+
+// TypeScript declaration for the global window object
+declare global {
+  interface Window {
+    jumpToTimelineDate: (dateText: string) => void;
+  }
 }
